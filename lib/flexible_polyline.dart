@@ -1,5 +1,5 @@
-import 'package:flexible_polyline_null_safety/converter.dart';
-import 'package:flexible_polyline_null_safety/latlngz.dart';
+import 'package:flexible_polyline/converter.dart';
+import 'package:flexible_polyline/latlngz.dart';
 import 'package:tuple/tuple.dart';
 
 class FlexiblePolyline {

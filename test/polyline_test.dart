@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io' show Platform, File;
 
-import 'package:flexible_polyline_null_safety/converter.dart';
-import 'package:flexible_polyline_null_safety/flexible_polyline.dart';
-import 'package:flexible_polyline_null_safety/latlngz.dart';
+import 'package:flexible_polyline/converter.dart';
+import 'package:flexible_polyline/flexible_polyline.dart';
+import 'package:flexible_polyline/latlngz.dart';
 import "package:path/path.dart" show dirname, join;
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart';
@@ -11,10 +11,12 @@ import 'package:tuple/tuple.dart';
 void main() {
   test('testInvalidCoordinates', () {
     //Null coordinates
-    expect(() => FlexiblePolyline.encode(null, 5, ThirdDimension.ABSENT, 0), throwsArgumentError);
+    expect(() => FlexiblePolyline.encode(null, 5, ThirdDimension.ABSENT, 0),
+        throwsArgumentError);
 
     //Empty coordinates list test
-    expect(() => FlexiblePolyline.encode([], 5, ThirdDimension.ABSENT, 0), throwsArgumentError);
+    expect(() => FlexiblePolyline.encode([], 5, ThirdDimension.ABSENT, 0),
+        throwsArgumentError);
   });
 
   test('testInvalidThirdDimension', () {
@@ -23,7 +25,8 @@ void main() {
     ThirdDimension? invalid;
 
     //Invalid Third Dimension
-    expect(() => FlexiblePolyline.encode(pairs, 5, invalid, 0), throwsArgumentError);
+    expect(() => FlexiblePolyline.encode(pairs, 5, invalid, 0),
+        throwsArgumentError);
   });
 
   test('testConvertValue', () {
@@ -40,7 +43,8 @@ void main() {
     pairs.add(LatLngZ(50.0987800, 8.6875156));
 
     String expected = "BFoz5xJ67i1B1B7PzIhaxL7Y";
-    String computed = FlexiblePolyline.encode(pairs, 5, ThirdDimension.ABSENT, 0);
+    String computed =
+        FlexiblePolyline.encode(pairs, 5, ThirdDimension.ABSENT, 0);
     expect(computed, expected);
   });
 
@@ -57,8 +61,10 @@ void main() {
     pairs.add(LatLngZ(52.4029388, 13.0706196));
     pairs.add(LatLngZ(52.4105797, 13.0755529));
 
-    String expected = "BF05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e";
-    String computed = FlexiblePolyline.encode(pairs, 5, ThirdDimension.ABSENT, 0);
+    String expected =
+        "BF05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e";
+    String computed =
+        FlexiblePolyline.encode(pairs, 5, ThirdDimension.ABSENT, 0);
     expect(computed, expected);
   });
 
@@ -70,7 +76,8 @@ void main() {
     tuples.add(LatLngZ(50.0987800, 8.6875156, 40));
 
     String expected = "BlBoz5xJ67i1BU1B7PUzIhaUxL7YU";
-    String computed = FlexiblePolyline.encode(tuples, 5, ThirdDimension.ALTITUDE, 0);
+    String computed =
+        FlexiblePolyline.encode(tuples, 5, ThirdDimension.ALTITUDE, 0);
     expect(computed, expected);
   });
 
@@ -84,10 +91,14 @@ void main() {
   });
 
   test('testThirdDimension', () {
-    expect(FlexiblePolyline.getThirdDimension("BFoz5xJ67i1BU".split('')), equals(ThirdDimension.ABSENT));
-    expect(FlexiblePolyline.getThirdDimension("BVoz5xJ67i1BU".split('')), equals(ThirdDimension.LEVEL));
-    expect(FlexiblePolyline.getThirdDimension("BlBoz5xJ67i1BU".split('')), equals(ThirdDimension.ALTITUDE));
-    expect(FlexiblePolyline.getThirdDimension("B1Boz5xJ67i1BU".split('')), equals(ThirdDimension.ELEVATION));
+    expect(FlexiblePolyline.getThirdDimension("BFoz5xJ67i1BU".split('')),
+        equals(ThirdDimension.ABSENT));
+    expect(FlexiblePolyline.getThirdDimension("BVoz5xJ67i1BU".split('')),
+        equals(ThirdDimension.LEVEL));
+    expect(FlexiblePolyline.getThirdDimension("BlBoz5xJ67i1BU".split('')),
+        equals(ThirdDimension.ALTITUDE));
+    expect(FlexiblePolyline.getThirdDimension("B1Boz5xJ67i1BU".split('')),
+        equals(ThirdDimension.ELEVATION));
   });
 
   test('testDecodeConvertValue', () {
@@ -99,7 +110,8 @@ void main() {
   });
 
   test('testSimpleLatLngDecoding', () {
-    List<LatLngZ> computed = FlexiblePolyline.decode("BFoz5xJ67i1B1B7PzIhaxL7Y");
+    List<LatLngZ> computed =
+        FlexiblePolyline.decode("BFoz5xJ67i1B1B7PzIhaxL7Y");
     List<LatLngZ> expected = [];
     expected.add(LatLngZ(50.10228, 8.69821));
     expected.add(LatLngZ(50.10201, 8.69567));
@@ -110,7 +122,8 @@ void main() {
   });
 
   test('testComplexLatLngDecoding', () {
-    List<LatLngZ> computed = FlexiblePolyline.decode("BF05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e");
+    List<LatLngZ> computed = FlexiblePolyline.decode(
+        "BF05xgKuy2xCx9B7vUl0OhnR54EqSzpEl-HxjD3pBiGnyGi2CvwFsgD3nD4vB6e");
 
     List<LatLngZ> expected = [];
     expected.add(LatLngZ(52.51994, 13.38663));
@@ -128,7 +141,8 @@ void main() {
   });
 
   test('testLatLngZDecode', () {
-    List<LatLngZ> computed = FlexiblePolyline.decode("BlBoz5xJ67i1BU1B7PUzIhaUxL7YU");
+    List<LatLngZ> computed =
+        FlexiblePolyline.decode("BlBoz5xJ67i1BU1B7PUzIhaUxL7YU");
     List<LatLngZ> expected = [];
 
     expected.add(LatLngZ(50.10228, 8.69821, 10));
@@ -141,7 +155,8 @@ void main() {
 
   test('encodingSmokeTest', () {
     List<String> input = [];
-    final inputFile = File(join(dirname(Platform.script.path), 'res/original.txt'));
+    final inputFile =
+        File(join(dirname(Platform.script.path), 'res/original.txt'));
     Stream<List<int>> inputStream = inputFile.openRead();
     inputStream
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -154,7 +169,8 @@ void main() {
     });
 
     List<String> encoded = [];
-    final encodedFile = File(join(dirname(Platform.script.path), 'res/encoded.txt'));
+    final encodedFile =
+        File(join(dirname(Platform.script.path), 'res/encoded.txt'));
     Stream<List<int>> encodedStream = encodedFile.openRead();
     encodedStream
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -178,8 +194,10 @@ void main() {
       String encodedLine = encoded[i].trim();
 
       //File parsing
-      List<String> inputs = inputLine.substring(1, inputLine.length - 1).split(";");
-      List<String> meta = inputs[0].trim().substring(1, inputs[0].trim().length - 1).split(",");
+      List<String> inputs =
+          inputLine.substring(1, inputLine.length - 1).split(";");
+      List<String> meta =
+          inputs[0].trim().substring(1, inputs[0].trim().length - 1).split(",");
       precision = int.parse(meta[0]);
 
       if (meta.length > 1) {
@@ -188,7 +206,8 @@ void main() {
         hasThirdDimension = true;
       }
       List<LatLngZ> latLngZs = extractLatLngZ(inputs[1], hasThirdDimension);
-      String encodedComputed = FlexiblePolyline.encode(latLngZs, precision, thirdDimension, thirdDimPrecision);
+      String encodedComputed = FlexiblePolyline.encode(
+          latLngZs, precision, thirdDimension, thirdDimPrecision);
       String encodedExpected = encodedLine;
       expect(encodedComputed, encodedExpected);
     }
@@ -196,7 +215,8 @@ void main() {
 
   test('decodingSmokeTest', () {
     List<String> encoded = [];
-    final encodedFile = File(join(dirname(Platform.script.path), 'res/encoded.txt'));
+    final encodedFile =
+        File(join(dirname(Platform.script.path), 'res/encoded.txt'));
     Stream<List<int>> encodedStream = encodedFile.openRead();
     encodedStream
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -209,7 +229,8 @@ void main() {
     });
 
     List<String> decoded = [];
-    final decodedFile = File(join(dirname(Platform.script.path), 'res/decoded.txt'));
+    final decodedFile =
+        File(join(dirname(Platform.script.path), 'res/decoded.txt'));
     Stream<List<int>> decodedStream = decodedFile.openRead();
     decodedStream
         .transform(utf8.decoder) // Decode bytes to UTF-8.
@@ -232,17 +253,22 @@ void main() {
       String decodedLine = decoded[i].trim();
 
       //File parsing
-      List<String> output = decodedLine.substring(1, decodedLine.length - 1).split(";");
-      List<String> meta = output[0].trim().substring(1, output[0].trim().length - 1).split(",");
+      List<String> output =
+          decodedLine.substring(1, decodedLine.length - 1).split(";");
+      List<String> meta =
+          output[0].trim().substring(1, output[0].trim().length - 1).split(",");
       if (meta.length > 1) {
         expectedDimension = ThirdDimension.values[int.parse(meta[2].trim())];
         hasThirdDimension = true;
       }
-      String decodedInputLine = decodedLine.substring(1, decodedLine.length - 1).split(";")[1];
-      List<LatLngZ> expectedLatLngZs = extractLatLngZ(decodedInputLine, hasThirdDimension);
+      String decodedInputLine =
+          decodedLine.substring(1, decodedLine.length - 1).split(";")[1];
+      List<LatLngZ> expectedLatLngZs =
+          extractLatLngZ(decodedInputLine, hasThirdDimension);
 
       //Validate thirdDimension
-      ThirdDimension computedDimension = FlexiblePolyline.getThirdDimension(splittedLine);
+      ThirdDimension computedDimension =
+          FlexiblePolyline.getThirdDimension(splittedLine);
       expect(computedDimension, expectedDimension);
 
       //Validate LatLngZ
@@ -256,8 +282,10 @@ void main() {
 List<LatLngZ> extractLatLngZ(String line, bool hasThirdDimension) {
   List<LatLngZ> latLngZs = [];
 
-  List<String> coordinates = line.trim().substring(1, line.trim().length - 1).split(",");
-  for (int itr = 0; itr < coordinates.length && !isNullOrEmpty(coordinates[itr]);) {
+  List<String> coordinates =
+      line.trim().substring(1, line.trim().length - 1).split(",");
+  for (int itr = 0;
+      itr < coordinates.length && !isNullOrEmpty(coordinates[itr]);) {
     double lat = double.parse(coordinates[itr++].trim().replaceAll("(", ""));
     double lng = double.parse(coordinates[itr++].trim().replaceAll(")", ""));
     double z = 0;
