@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io' show Platform, File;
 
-import 'package:flexible_polyline/converter.dart';
-import 'package:flexible_polyline/flexible_polyline.dart';
-import 'package:flexible_polyline/latlngz.dart';
+import 'package:flexible_polyline_null_safety/converter.dart';
+import 'package:flexible_polyline_null_safety/flexible_polyline.dart';
+import 'package:flexible_polyline_null_safety/latlngz.dart';
 import "package:path/path.dart" show dirname, join;
 import 'package:test/test.dart';
 import 'package:tuple/tuple.dart';
